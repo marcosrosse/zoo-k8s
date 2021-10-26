@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: zookeeper
+  namespace: kafka
+  labels:
+    app: zookeeper
+    app.kubernetes.io/component: zookeeper
+    app.kubernetes.io/instance: zookeeper
+    app.kubernetes.io/part-of: zookeeper
+spec:
+  ports:
+    - name: 2181-tcp
+      protocol: TCP
+      port: 2181
+    - name: 2888-tcp
+      protocol: TCP
+      port: 2888
+    - name: 3888-tcp
+      protocol: TCP
+      port: 3888
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+  selector:
+    app: zookeeper
+  type: ClusterIP
+  sessionAffinity: None
+status:
+  loadBalancer: {}

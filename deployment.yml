@@ -1,0 +1,56 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: zookeeper
+  namespace: kafka
+spec:
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+        name: zookeeper
+    spec:
+      volumes:
+        - name: zoo-conf
+          persistentVolumeClaim:
+            claimName: zoo-1-pvc
+      containers:
+        - name: zookeeper
+          image: bitnami/zookeeper:latest
+          env:
+            - name: ZOO_TICK_TIME
+              valueFrom:
+                configMapKeyRef:
+                  name: zookeeper-configmap
+                  key: zoo.tick.time
+            - name: ZOO_INIT_TIME
+              valueFrom:
+                configMapKeyRef:
+                  name: zookeeper-configmap
+                  key: zoo.init.time
+            - name: ZOO_SYNC_LIMIT
+              valueFrom:
+                configMapKeyRef:
+                  name: zookeeper-configmap
+                  key: zoo.sync.limit
+            - name: ZOO_MAX_CLIENT_CNXNS
+              valueFrom:
+                configMapKeyRef:
+                  name: zookeeper-configmap
+                  key: zoo.max.client.cnxns
+          volumeMounts:
+          - mountPath: /conf
+            name: zoo-conf
+          - mountPath: /data
+            name: zoo-conf
+          - mountPath: /logs
+            name: zoo-conf
+          - mountPath: /datalog
+            name: zoo-conf
+  revisionHistoryLimit: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      name: zookeeper
+  strategy:
+    type: RollingUpdate

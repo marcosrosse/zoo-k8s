@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zookeeper-configmap
+  namespace: kafka
+
+data:
+  zoo.tick.time: "2000"
+  zoo.init.time: "5"
+  zoo.sync.limit: "2"
+  zoo.max.client.cnxns: "100"
