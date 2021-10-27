@@ -18,26 +18,8 @@ spec:
         - name: zookeeper
           image: bitnami/zookeeper:latest
           env:
-            - name: ZOO_TICK_TIME
-              valueFrom:
-                configMapKeyRef:
-                  name: zookeeper-configmap
-                  key: zoo.tick.time
-            - name: ZOO_INIT_TIME
-              valueFrom:
-                configMapKeyRef:
-                  name: zookeeper-configmap
-                  key: zoo.init.time
-            - name: ZOO_SYNC_LIMIT
-              valueFrom:
-                configMapKeyRef:
-                  name: zookeeper-configmap
-                  key: zoo.sync.limit
-            - name: ZOO_MAX_CLIENT_CNXNS
-              valueFrom:
-                configMapKeyRef:
-                  name: zookeeper-configmap
-                  key: zoo.max.client.cnxns
+           - name: ALLOW_ANONYMOUS_LOGIN
+             value: "yes"
           volumeMounts:
           - mountPath: /conf
             name: zoo-conf
